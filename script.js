@@ -89,7 +89,7 @@ document.addEventListener("keyup", function(e){
 
       decoder();
 
-    },1000);
+    },900);
 
 
   }
@@ -127,7 +127,6 @@ function decoder(){
     setTimeout(() => {
         target.style.borderColor = "white";
         target.style.boxShadow = "0 0 15px white";
-      status.textContent = "";
     }, 500);
 
   }
