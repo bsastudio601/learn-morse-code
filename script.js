@@ -89,7 +89,7 @@ document.addEventListener("keyup", function(e){
 
       decoder();
 
-    },500);
+    },800);
 
 
   }
