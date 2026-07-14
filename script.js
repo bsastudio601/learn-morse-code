@@ -27,64 +27,114 @@ const morse = {
   "--..":"Z"
 };
 
+
+
 let starttime;
 let current = "";
-let textmorse = "";
-let decode ;
-
-
-
-document.addEventListener("keydown", function (e) {
-  if (e.key === "Enter") {
-    starttime = Date.now();
-  }
-});
-document.addEventListener("keyup", function (e) {
-  if (e.key === "Enter") {
-    const dur = Date.now()- starttime;
-    if (dur < 200) {
-        current += ".";
-    }
-    else {
-        current += "-"; 
-    }
-    viewmorse.textContent = current;
-    
-    function decoder () {
-        textmorse = morse[current];
-       
-        current = "";
-        viewtext.textContent = textmorse;
-        
-    }
-    clearTimeout(decode);
-    decode = setTimeout(decoder,500);
-    
-  }
-
-});
+let decode;
+let targetLetter;
 
 
 const viewmorse = document.getElementById("morse");
 const viewtext = document.getElementById("text");
 const target = document.getElementById("target");
-const status = document.getElementById("status");
 
-let targetLetter;
 
 
 function newTarget(){
+
   targetLetter = String.fromCharCode(
     65 + Math.floor(Math.random() * 26)
   );
 
   target.textContent = targetLetter;
-  status.textContent = "";
+
+
 }
 
 newTarget();
 
+document.addEventListener("keydown", function (e) {
+  if (e.key === " ") {
+    starttime = Date.now();
+  }
+});
+
+document.addEventListener("keyup", function(e){
+
+  if(e.key === " "){
+
+    const dur = Date.now() - starttime;
 
 
+    if(dur < 200){
+      current += ".";
 
-   
+    }
+    else{
+      current += "-";
+
+    }
+
+    viewmorse.textContent = current;
+
+
+    starttime = null;
+
+
+    clearTimeout(decode);
+
+
+    decode = setTimeout(function(){
+
+      decoder();
+
+    },500);
+
+
+  }
+
+});
+
+function decoder(){
+
+  let letter = morse[current];
+
+
+  if(letter){
+
+    if(letter === targetLetter){
+        target.style.borderColor = "#4fd6e8";
+        target.style.boxShadow = "0 0 15px #4fd6e8";
+
+
+      
+        console.log('yes');
+
+    }
+    else{
+         console.log('no');
+        target.style.borderColor = "red";
+        target.style.boxShadow = "0 0 15px red";
+
+      
+    
+
+    }
+
+    newTarget();
+
+    setTimeout(() => {
+        target.style.borderColor = "white";
+        target.style.boxShadow = "0 0 15px white";
+      status.textContent = "";
+    }, 500);
+
+  }
+
+
+  current = "";
+  viewmorse.textContent = "";
+
+}
+
